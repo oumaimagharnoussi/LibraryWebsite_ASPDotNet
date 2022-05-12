@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link runat="server" rel="icon" href="favicon.png" type="image/png" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("WORLD LIBRARY", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Livre", "Index", "Livre")</li>
+                    @if (((string)Session["Role"] == "manager") || ((string)Session["Role"] == "admin"))
+                    {
+                        <li>@Html.ActionLink("Theme", "Index", "Theme")</li>
+                    }
+                    @if ((string)Session["Role"] == "admin")
+                    { 
+                        <li>@Html.ActionLink("Utilisateur", "Index", "Account")</li>
+                    }
+                </ul>
+
+
+                @if ((Session["UserName"] != null) && (Session["UserID"] != null))
+                {
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            @Html.ActionLink("Account", "Edit", "Account")
+                        </li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    </ul>
+
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Register", "Signup", "Account")</li>
+                        <li>@Html.ActionLink("Log in", "Signin", "Account")</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>Website developped by Haroun Salhi & Omaima Gharnoussi &copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

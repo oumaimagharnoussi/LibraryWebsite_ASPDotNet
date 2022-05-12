@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Library.Models.Livre>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Liste des livres</h2>
+
+
+@using (Html.BeginForm("Index", "Livre", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row search_row">
+        <div class="col-md-2 search_div">
+            @Html.Label("title")
+            <div class="">
+                @Html.Editor("titleLivre")
+            </div>
+        </div>
+
+        <div class="col-md-2 search_div">
+            @Html.Label("Author")
+            <div class="">
+                @Html.Editor("Author")
+            </div>
+        </div>
+
+        <div class="col-md-2 search_div">
+            @Html.Label("Price")
+            <div class="">
+                @Html.Editor("Price")
+            </div>
+        </div>
+
+        <div class="col-md-offset-4 search_div">
+            <div class=" col-md-10">
+                <input type="submit" value="Search" class="btn btn-default search-button" />
+            </div>
+        </div>
+    </div>
+}
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+
+                    @Html.ActionLink("DownloadFile", "DownloadFile", new { file = item.FileName }) |
+                    @if (((string)Session["Role"] == "admin")||((string)Session["Role"] == "manager"))
+                    {
+                        @Html.ActionLink("Edit ", "Edit", new { id = item.ID }) 
+                        @Html.ActionLink(" Delete", "Delete", new { id = item.ID })
+                    }
+                </td>
+            </tr>
+        }
+
+
+    </table>
+
+    <p>
+        @if (((string)Session["Role"] == "user") || ((string)Session["Role"] == "manager") || ((string)Session["Role"] == "admin"))
+        {
+            @Html.ActionLink("Create New", "Create")
+        }
+        </p>

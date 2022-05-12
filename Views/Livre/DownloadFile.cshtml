@@ -1,0 +1,22 @@
+﻿@model Library.Models.Livre
+
+@{
+    ViewBag.Title = "DownloadFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DownloadFile</h2>
+<h3>Are you sure you want to download this file: @Html.DisplayFor(model => model.FileName) ?</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.FileName)
+    <div class="form-actions no-color">
+        <input type="submit" value="Donwload" class="btn btn-default" /> |
+        <p class="btn btn-secondary">
+        @Html.ActionLink("Back to List", "Index")
+            </p>
+    </div>
+}
+
